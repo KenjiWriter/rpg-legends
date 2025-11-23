@@ -3,6 +3,19 @@
 @section('title', 'MMO RPG - Wiadomości i Nowości')
 
 @section('content')
+<!-- Flash Messages -->
+@if(session('success'))
+    <div class="rpgui-container framed-golden" style="max-width: 1200px; margin: 0 auto 20px; padding: 15px; background: rgba(46, 204, 113, 0.2);">
+        <p style="margin: 0; color: #2ecc71; text-align: center; font-size: 16px;">✅ {{ session('success') }}</p>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="rpgui-container framed" style="max-width: 1200px; margin: 0 auto 20px; padding: 15px; background: rgba(231, 76, 60, 0.2);">
+        <p style="margin: 0; color: #e74c3c; text-align: center; font-size: 16px;">❌ {{ session('error') }}</p>
+    </div>
+@endif
+
 <div class="landing-container">
     <!-- News Feed (Left/Center) -->
     <div class="news-section">
@@ -82,17 +95,30 @@
                             @if($character->is_active)
                                 <span class="active-badge">✓ Aktywna</span>
                             @else
-                                <button class="rpgui-button" style="margin-top: 5px;">
-                                    <p>Wybierz</p>
-                                </button>
+                                <form action="{{ route('characters.activate', $character) }}" method="POST" style="margin-top: 5px;">
+                                    @csrf
+                                    <button type="submit" class="rpgui-button" style="width: 100%;">
+                                        <p>Wybierz</p>
+                                    </button>
+                                </form>
+                            @endif
+                            
+                            @if(!$character->is_active)
+                                <form action="{{ route('characters.destroy', $character) }}" method="POST" style="margin-top: 5px;" onsubmit="return confirm('Czy na pewno chcesz usunąć postać {{ $character->name }}?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="rpgui-button" style="width: 100%; background: rgba(231, 76, 60, 0.3);">
+                                        <p>Usuń</p>
+                                    </button>
+                                </form>
                             @endif
                         </div>
                     @endforeach
                     
                     @if(auth()->user()->canCreateCharacter())
-                        <button class="rpgui-button golden" style="width: 100%; margin-top: 10px;">
+                        <a href="{{ route('characters.create') }}" class="rpgui-button golden" style="width: 100%; margin-top: 10px; display: block; text-align: center;">
                             <p>+ Nowa Postać ({{ auth()->user()->characters->count() }}/4)</p>
-                        </button>
+                        </a>
                     @else
                         <p class="limit-reached">Osiągnięto limit postaci (4/4)</p>
                     @endif
