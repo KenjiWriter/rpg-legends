@@ -123,8 +123,8 @@
 </div>
 
 <!-- Registration Modal -->
-<div id="registerModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; align-items: center; justify-content: center;">
-    <div class="rpgui-container framed-golden-2" style="width: 90%; max-width: 500px; padding: 30px; max-height: 90vh; overflow-y: auto;">
+<div id="registerModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="rpgui-container framed-golden-2" style="width: 90%; max-width: 500px; padding: 30px; max-height: 90vh; overflow-y: auto; background: #1a1410;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2 class="section-title" style="margin: 0;">📜 Stwórz Konto</h2>
             <button type="button" onclick="closeRegisterModal()" style="background: none; border: none; color: #ffd700; font-size: 24px; cursor: pointer; padding: 0; line-height: 1;">×</button>
