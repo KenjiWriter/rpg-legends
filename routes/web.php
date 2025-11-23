@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CombatController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -31,6 +32,17 @@ Route::middleware(['auth', 'verified', \App\Http\Middleware\EnsureHasActiveChara
     Route::get('/city/blacksmith', [\App\Http\Controllers\GameController::class, 'blacksmith'])->name('city.blacksmith');
     Route::get('/city/merchant', [\App\Http\Controllers\GameController::class, 'merchant'])->name('city.merchant');
     Route::get('/city/adventure', [\App\Http\Controllers\GameController::class, 'adventure'])->name('city.adventure');
+    Route::get('/city/tavern', [\App\Http\Controllers\GameController::class, 'tavern'])->name('city.tavern');
+    Route::post('/city/tavern/heal', [\App\Http\Controllers\GameController::class, 'heal'])->name('city.tavern.heal');
+    
+    // Character Stats Routes
+    Route::get('/character/stats', [\App\Http\Controllers\CharacterController::class, 'stats'])->name('character.stats');
+    Route::post('/character/allocate-stat', [\App\Http\Controllers\CharacterController::class, 'allocateStat'])->name('character.allocateStat');
+    
+    // Combat Routes
+    Route::get('/combat/start/{location}', [CombatController::class, 'start'])->name('game.combat.start');
+    Route::get('/combat', [CombatController::class, 'index'])->name('game.combat');
+    Route::post('/combat/attack', [CombatController::class, 'attack'])->name('game.combat.attack');
 });
 
 

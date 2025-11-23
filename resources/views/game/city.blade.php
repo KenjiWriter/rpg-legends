@@ -85,7 +85,6 @@
         <!-- Brońmistrz -->
         <a href="{{ route('city.weaponsmith') }}" class="building-hotspot" style="top: 30%; left: 35%;">
             <div class="hotspot-icon">
-                <!-- Removed hue-rotate to keep original colors if desired, or keep for distinction -->
                 <img src="{{ asset('images/blacksmith_icon.png') }}" style="filter: hue-rotate(45deg);" alt="Brońmistrz">
             </div>
             <div class="hotspot-label">
@@ -96,7 +95,6 @@
         <!-- Kowal -->
         <a href="{{ route('city.blacksmith') }}" class="building-hotspot" style="top: 40%; left: 55%;">
             <div class="hotspot-icon">
-                <!-- Removed grayscale filter as requested -->
                 <img src="{{ asset('images/blacksmith_icon.png') }}" alt="Kowal">
             </div>
             <div class="hotspot-label">
@@ -124,6 +122,16 @@
             </div>
         </a>
 
+        <!-- Tavern -->
+        <a href="{{ route('city.tavern') }}" class="building-hotspot" style="top: 65%; left: 75%;">
+            <div class="hotspot-icon">
+                <div style="font-size: 40px;">🍺</div>
+            </div>
+            <div class="hotspot-label">
+                <span class="label-text">Karczma</span>
+            </div>
+        </a>
+
         <!-- BOTTOM UI BAR -->
         <div class="ui-bar bottom-bar">
             <div class="chat-container">
@@ -137,6 +145,12 @@
                 </div>
             </div>
             <div class="bottom-menu">
+                <a href="{{ route('character.stats') }}" class="ui-button" title="Statystyki Postaci" style="position: relative; text-decoration: none;">
+                    📊
+                    @if($character->stat_points > 0)
+                        <span style="position: absolute; top: -5px; right: -5px; background: #e74c3c; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;">{{ $character->stat_points }}</span>
+                    @endif
+                </a>
                 <div class="ui-button" title="Zadania">📜</div>
                 <div class="ui-button" title="Gildia">🛡️</div>
                 <div class="ui-button" title="Ranking">🏆</div>

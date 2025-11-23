@@ -99,4 +99,62 @@ class CharacterController extends Controller
 
         return redirect()->route('home')->with('success', "Postać {$characterName} została usunięta.");
     }
+
+    /**
+     * Show character stats page
+     */
+    public function stats()
+    {
+        $character = auth()->user()->activeCharacter;
+        
+        if (!$character) {
+            return redirect()->route('home')->with('error', 'Nie masz aktywnej postaci!');
+        }
+
+        return view('character.stats', compact('character'));
+    }
+
+    /**
+     * Allocate a stat point
+     */
+    public function allocateStat(Request $request)
+    {
+        $character = auth()->user()->activeCharacter;
+        
+        if (!$character) {
+            return redirect()->route('home')->with('error', 'Nie masz aktywnej postaci!');
+        }
+
+        // Check if character has stat points
+        if ($character->stat_points <= 0) {
+            return back()->with('error', 'Nie masz punktów statystyk do przydzielenia!');
+        }
+
+        // Validate stat type
+        $validated = $request->validate([
+            'stat' => ['required', 'in:strength,intelligence,dexterity,vitality,defense']
+        ]);
+
+        // Increment the stat
+        $statName = $validated['stat'];
+        $character->$statName += 1;
+        $character->stat_points -= 1;
+
+        // Update max HP if vitality was increased
+        if ($statName === 'vitality') {
+            $character->max_hp = 100 + ($character->vitality * 5);
+        }
+
+        $character->save();
+
+        $statLabels = [
+            'strength' => 'Siła',
+            'intelligence' => 'Inteligencja',
+            'dexterity' => 'Zręczność',
+            'vitality' => 'Witalność',
+            'defense' => 'Obrona'
+        ];
+
+        return back()->with('success', "Zwiększono {$statLabels[$statName]}! Pozostało punktów: {$character->stat_points}");
+    }
 }

@@ -58,6 +58,16 @@ h6 {
     color: #c9b388;
 }
 
+/* Landing Container - Main Layout */
+.landing-container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 /* News Section */
 .news-section {
     min-height: 400px;

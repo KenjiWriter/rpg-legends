@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('intelligence')->default(10);
             $table->integer('dexterity')->default(10);
             $table->integer('vitality')->default(10);
+            $table->integer('defense')->default(1);
             
             // Combat stats
             $table->integer('current_hp')->default(100);
@@ -30,6 +31,9 @@ return new class extends Migration
             
             // Economy
             $table->integer('gold')->default(100);
+            
+            // Stat Points (for manual allocation on level up)
+            $table->integer('stat_points')->default(0);
             
             // Character selection
             $table->boolean('is_active')->default(false);
