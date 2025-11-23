@@ -25,28 +25,43 @@
             <!-- Login Form -->
             <div class="rpgui-container framed-golden">
                 <h3 class="sidebar-title">🗝️ Wejście do Gry</h3>
-                <form action="#" method="POST" class="auth-form">
+                <form action="{{ route('login') }}" method="POST" class="auth-form">
                     @csrf
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" class="rpgui-input" placeholder="twoj@email.com" required>
+                        <input type="email" id="email" name="email" class="rpgui-input" value="{{ old('email') }}" required autofocus>
+                        @error('email')
+                            <span style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block;">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="form-group">
                         <label for="password">Hasło:</label>
-                        <input type="password" id="password" name="password" class="rpgui-input" placeholder="••••••••" required>
+                        <input type="password" id="password" name="password" class="rpgui-input" required>
+                        @error('password')
+                            <span style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block;">{{ $message }}</span>
+                        @enderror
                     </div>
                     
-                    <button type="submit" class="rpgui-button golden">
+                    <div class="form-group">
+                        <label for="remember_me" style="display: flex; align-items: center; cursor: pointer;">
+                            <input id="remember_me" type="checkbox" name="remember" style="margin-right: 10px;">
+                            <span style="font-size: 14px;">Zapamiętaj mnie</span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="rpgui-button golden" style="width: 100%;">
                         <p>Zaloguj się</p>
                     </button>
                     
                     <div class="form-footer">
-                        <a href="#" class="rpgui-link">Zapomniałeś hasła?</a>
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="rpgui-link">Zapomniałeś hasła?</a>
+                        @endif
                         <hr class="golden">
-                        <a href="#" class="rpgui-button">
+                        <button type="button" class="rpgui-button" style="width: 100%;" onclick="openRegisterModal()">
                             <p>Stwórz Konto</p>
-                        </a>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -85,7 +100,7 @@
                 
                 <hr class="golden">
                 
-                <form action="#" method="POST" style="margin-top: 10px;">
+                <form action="{{ route('logout') }}" method="POST" style="margin-top: 10px;">
                     @csrf
                     <button type="submit" class="rpgui-button" style="width: 100%;">
                         <p>Wyloguj</p>
@@ -106,4 +121,87 @@
         </div>
     </div>
 </div>
+
+<!-- Registration Modal -->
+<div id="registerModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="rpgui-container framed-golden-2" style="width: 90%; max-width: 500px; padding: 30px; max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 class="section-title" style="margin: 0;">📜 Stwórz Konto</h2>
+            <button type="button" onclick="closeRegisterModal()" style="background: none; border: none; color: #ffd700; font-size: 24px; cursor: pointer; padding: 0; line-height: 1;">×</button>
+        </div>
+
+        <form action="{{ route('register') }}" method="POST" class="auth-form">
+            @csrf
+
+            <!-- Name -->
+            <div class="form-group">
+                <label for="modal-name">Nazwa użytkownika:</label>
+                <input id="modal-name" class="rpgui-input" type="text" name="name" value="{{ old('name') }}" required autofocus>
+                @error('name')
+                    <span style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block;">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="modal-email">Email:</label>
+                <input id="modal-email" class="rpgui-input" type="email" name="email" value="{{ old('email') }}" required>
+                @error('email')
+                    <span style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block;">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="modal-password">Hasło:</label>
+                <input id="modal-password" class="rpgui-input" type="password" name="password" required>
+                @error('password')
+                    <span style="color: #e74c3c; font-size: 12px; margin-top: 5px; display: block;">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="modal-password_confirmation">Potwierdź hasło:</label>
+                <input id="modal-password_confirmation" class="rpgui-input" type="password" name="password_confirmation" required>
+            </div>
+
+            <button type="submit" class="rpgui-button golden" style="width: 100%; margin-top: 10px;">
+                <p>Zarejestruj się</p>
+            </button>
+            
+            <button type="button" onclick="closeRegisterModal()" class="rpgui-button" style="width: 100%; margin-top: 10px;">
+                <p>Anuluj</p>
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+function openRegisterModal() {
+    const modal = document.getElementById('registerModal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeRegisterModal() {
+    const modal = document.getElementById('registerModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking backdrop
+document.getElementById('registerModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeRegisterModal();
+    }
+});
+
+// Open modal if there are registration errors
+@if($errors->any() && old('name'))
+    document.addEventListener('DOMContentLoaded', function() {
+        openRegisterModal();
+    });
+@endif
+</script>
 @endsection
