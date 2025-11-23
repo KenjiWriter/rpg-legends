@@ -44,21 +44,6 @@ h6 {
 }
 
 .sidebar-title {
-    font-size: 14px;
-    margin: 0 0 15px 0;
-    text-align: center;
-}
-
-/* Layout */
-.main-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.landing-container {
-    display: grid;
-    grid-template-columns: 1fr 350px;
     gap: 20px;
     margin: 0 auto;
 }

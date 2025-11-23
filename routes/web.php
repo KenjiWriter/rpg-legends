@@ -24,4 +24,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth', 'verified', \App\Http\Middleware\EnsureHasActiveCharacter::class])->group(function () {
+    Route::get('/city', [\App\Http\Controllers\GameController::class, 'city'])->name('city');
+    Route::get('/city/armorer', [\App\Http\Controllers\GameController::class, 'armorer'])->name('city.armorer');
+    Route::get('/city/weaponsmith', [\App\Http\Controllers\GameController::class, 'weaponsmith'])->name('city.weaponsmith');
+    Route::get('/city/blacksmith', [\App\Http\Controllers\GameController::class, 'blacksmith'])->name('city.blacksmith');
+    Route::get('/city/merchant', [\App\Http\Controllers\GameController::class, 'merchant'])->name('city.merchant');
+    Route::get('/city/adventure', [\App\Http\Controllers\GameController::class, 'adventure'])->name('city.adventure');
+});
+
+
 require __DIR__.'/auth.php';

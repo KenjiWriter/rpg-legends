@@ -20,6 +20,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
+    @unless(isset($fullScreen) && $fullScreen)
     <!-- Header/Navbar -->
     <div class="rpgui-content rpgui-container framed-golden" style="margin: 20px auto; max-width: 1200px; padding: 15px;">
         <div class="navbar-content">
@@ -27,24 +28,30 @@
             @guest
                 <p class="nav-info">Zaloguj się, aby rozpocząć swoją przygodę!</p>
             @else
+                <!-- User info hidden as requested -->
+                {{-- 
                 <p class="nav-info">Witaj, {{ auth()->user()->name }}! 
                     @if(auth()->user()->activeCharacter)
                         Grasz jako: <strong>{{ auth()->user()->activeCharacter->name }}</strong> ({{ auth()->user()->activeCharacter->class }})
                     @endif
                 </p>
+                --}}
             @endguest
         </div>
     </div>
+    @endunless
 
     <!-- Main Content -->
-    <div class="main-wrapper">
+    <div class="{{ $wrapperClass ?? 'main-wrapper' }}">
         @yield('content')
     </div>
 
+    @unless(isset($fullScreen) && $fullScreen)
     <!-- Footer -->
     <div class="rpgui-container framed" style="margin: 20px auto; max-width: 1200px; text-align: center; padding: 10px;">
         <p style="margin: 0; font-size: 12px;">&copy; {{ date('Y') }} MMO RPG. Wszelkie prawa zastrzeżone.</p>
     </div>
+    @endunless
 
     <!-- RPGUI Framework JS -->
     <script src="https://cdn.jsdelivr.net/npm/rpgui@1.3.2/dist/rpgui.min.js"></script>

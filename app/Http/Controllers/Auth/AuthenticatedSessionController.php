@@ -28,7 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect(route('home', absolute: false));
+        // After successful login, redirect to city if an active character exists, otherwise to home
+        if (auth()->user()->activeCharacter) {
+            return redirect()->route('city');
+        }
+        return redirect()->route('home');
     }
 
     /**

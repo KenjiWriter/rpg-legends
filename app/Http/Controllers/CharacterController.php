@@ -81,7 +81,7 @@ class CharacterController extends Controller
         // Activate this character
         $character->update(['is_active' => true]);
 
-        return redirect()->route('home')->with('success', "Postać {$character->name} jest teraz aktywna!");
+        return redirect()->route('city')->with('success', "Postać {$character->name} jest teraz aktywna!");
     }
 
     /**
